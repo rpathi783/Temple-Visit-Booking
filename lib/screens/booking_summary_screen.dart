@@ -13,6 +13,29 @@ class BookingSummaryScreen extends StatelessWidget {
         child: Consumer<BookingProvider>(
           builder: (context, provider, child) {
             final booking = provider.booking;
+
+            if (booking.date == null || booking.timeSlot == null) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text('Booking data is incomplete'),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Go Back'),
+                    ),
+                  ],
+                ),
+              );
+            }
+
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
@@ -83,7 +106,7 @@ class BookingSummaryScreen extends StatelessWidget {
                           _buildSummaryRow('Booking Type', 'Individual'),
                           _buildSummaryRow(
                             'Total Visitors',
-                            '${booking.visitorCount}-Persons',
+                            '${booking.visitorCount} Persons',
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -171,11 +194,7 @@ class BookingSummaryScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  ChangeNotifierProvider.value(
-                                    value: provider,
-                                    child: const SuccessScreen(),
-                                  ),
+                              builder: (context) => const SuccessScreen(),
                             ),
                           );
                         },
@@ -191,6 +210,7 @@ class BookingSummaryScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                       ),

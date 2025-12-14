@@ -25,6 +25,30 @@ class _VisitorDetailsScreenState extends State<VisitorDetailsScreen> {
       body: SafeArea(
         child: Consumer<BookingProvider>(
           builder: (context, provider, child) {
+            // Safety check: ensure visitors list is properly initialized
+            if (provider.booking.visitors.length !=
+                provider.booking.visitorCount) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text('Error loading visitor details'),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Go Back'),
+                    ),
+                  ],
+                ),
+              );
+            }
+
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
@@ -108,6 +132,10 @@ class _VisitorDetailsScreenState extends State<VisitorDetailsScreen> {
     BookingProvider provider,
     int index,
   ) {
+    if (index >= provider.booking.visitors.length) {
+      return const SizedBox.shrink();
+    }
+
     final visitor = provider.booking.visitors[index];
 
     return Container(
@@ -255,10 +283,7 @@ class _VisitorDetailsScreenState extends State<VisitorDetailsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider.value(
-                value: provider,
-                child: const BookingSummaryScreen(),
-              ),
+              builder: (context) => const BookingSummaryScreen(),
             ),
           );
         },
@@ -271,7 +296,11 @@ class _VisitorDetailsScreenState extends State<VisitorDetailsScreen> {
         ),
         child: const Text(
           'Confirm Booking',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
     );

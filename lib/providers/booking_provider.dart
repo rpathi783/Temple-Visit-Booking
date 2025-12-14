@@ -18,16 +18,35 @@ class BookingProvider with ChangeNotifier {
   }
 
   void updateVisitorCount(int count) {
-    _booking = _booking.copyWith(visitorCount: count);
+    if (count < 1) count = 1;
+
+    // Create a fresh list of visitors
     List<VisitorModel> visitors = [];
     for (int i = 0; i < count; i++) {
-      visitors.add(VisitorModel());
+      // Preserve existing visitor data if available
+      if (i < _booking.visitors.length) {
+        visitors.add(_booking.visitors[i]);
+      } else {
+        // Create new empty visitor
+        visitors.add(VisitorModel());
+      }
     }
-    _booking = _booking.copyWith(visitors: visitors);
+
+    _booking = _booking.copyWith(visitorCount: count, visitors: visitors);
+    print(
+      'Updated visitor count: $count, visitors list length: ${_booking.visitors.length}',
+    );
     notifyListeners();
   }
 
   void updateVisitor(int index, VisitorModel visitor) {
+    if (index >= _booking.visitors.length) {
+      print(
+        'Error: Index $index out of bounds. Visitors length: ${_booking.visitors.length}',
+      );
+      return;
+    }
+
     List<VisitorModel> updatedVisitors = List.from(_booking.visitors);
     updatedVisitors[index] = visitor;
     _booking = _booking.copyWith(visitors: updatedVisitors);
@@ -55,6 +74,7 @@ class BookingProvider with ChangeNotifier {
 
   bool validateAllVisitors() {
     if (_booking.visitors.isEmpty) return false;
+    if (_booking.visitors.length != _booking.visitorCount) return false;
     return _booking.visitors.every((visitor) => visitor.isValid());
   }
 }

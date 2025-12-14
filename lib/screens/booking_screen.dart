@@ -28,32 +28,30 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => BookingProvider(),
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildAppHeader(),
-                  const SizedBox(height: 30),
-                  const Text(
-                    'Book Your Visit',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF065F46),
-                    ),
+    // REMOVED ChangeNotifierProvider - use the one from main.dart
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAppHeader(),
+                const SizedBox(height: 30),
+                const Text(
+                  'Book Your Visit',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF065F46),
                   ),
-                  const SizedBox(height: 20),
-                  _buildBookingCard(),
-                  const SizedBox(height: 20),
-                  _buildProceedButton(context),
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+                _buildBookingCard(),
+                const SizedBox(height: 20),
+                _buildProceedButton(context),
+              ],
             ),
           ),
         ),
@@ -124,7 +122,7 @@ class _BookingScreenState extends State<BookingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Sample Temple',
+            'Murugan Temple',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -333,10 +331,7 @@ class _BookingScreenState extends State<BookingScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider.value(
-                value: provider,
-                child: const VisitorDetailsScreen(),
-              ),
+              builder: (context) => const VisitorDetailsScreen(),
             ),
           );
         },
@@ -352,10 +347,14 @@ class _BookingScreenState extends State<BookingScreen> {
           children: const [
             Text(
               'Proceed to Visitor Details',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             SizedBox(width: 8),
-            Icon(Icons.arrow_forward),
+            Icon(Icons.arrow_forward, color: Colors.white),
           ],
         ),
       ),

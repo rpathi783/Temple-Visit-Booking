@@ -13,6 +13,39 @@ class SuccessScreen extends StatelessWidget {
         child: Consumer<BookingProvider>(
           builder: (context, provider, child) {
             final booking = provider.booking;
+
+            if (booking.bookingId == null ||
+                booking.date == null ||
+                booking.timeSlot == null) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text('Booking information is incomplete'),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      child: const Text('Go to Home'),
+                    ),
+                  ],
+                ),
+              );
+            }
+
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
@@ -108,7 +141,10 @@ class SuccessScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
+                          // Reset booking first
                           provider.resetBooking();
+
+                          // Then navigate
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
@@ -129,6 +165,7 @@ class SuccessScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                       ),
