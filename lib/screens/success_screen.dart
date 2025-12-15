@@ -141,10 +141,8 @@ class SuccessScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Reset booking first
                           provider.resetBooking();
 
-                          // Then navigate
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

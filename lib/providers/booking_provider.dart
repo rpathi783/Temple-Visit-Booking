@@ -33,7 +33,7 @@ class BookingProvider with ChangeNotifier {
     }
 
     _booking = _booking.copyWith(visitorCount: count, visitors: visitors);
-    print(
+    debugPrint(
       'Updated visitor count: $count, visitors list length: ${_booking.visitors.length}',
     );
     notifyListeners();
@@ -41,7 +41,7 @@ class BookingProvider with ChangeNotifier {
 
   void updateVisitor(int index, VisitorModel visitor) {
     if (index >= _booking.visitors.length) {
-      print(
+      debugPrint(
         'Error: Index $index out of bounds. Visitors length: ${_booking.visitors.length}',
       );
       return;

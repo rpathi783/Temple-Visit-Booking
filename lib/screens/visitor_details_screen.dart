@@ -25,7 +25,6 @@ class _VisitorDetailsScreenState extends State<VisitorDetailsScreen> {
       body: SafeArea(
         child: Consumer<BookingProvider>(
           builder: (context, provider, child) {
-            // Safety check: ensure visitors list is properly initialized
             if (provider.booking.visitors.length !=
                 provider.booking.visitorCount) {
               return Center(

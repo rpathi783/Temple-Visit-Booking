@@ -28,7 +28,6 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // REMOVED ChangeNotifierProvider - use the one from main.dart
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
